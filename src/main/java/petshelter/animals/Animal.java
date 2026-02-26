@@ -3,6 +3,15 @@ package petshelter.animals;
 import petshelter.states.AnimalState;
 import petshelter.states.IntakeState;
 
+/**
+ * Represents an animal in the shelter system.
+ *
+ * Each animal stores identifying information, health status, shelter location,
+ * and a current state representing its lifecycle within the shelter.
+ *
+ * The class supports the State design pattern to manage status transitions.
+ */
+
 public class Animal {
 
     protected String id;

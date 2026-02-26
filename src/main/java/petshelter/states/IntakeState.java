@@ -2,6 +2,13 @@ package petshelter.states;
 
 import petshelter.animals.Animal;
 
+/**
+ * Represents the Intake state.
+ *
+ * Animals in this state have recently been admitted to the shelter
+ * and are awaiting processing or evaluation.
+ */
+
 public class IntakeState implements AnimalState {
 
     @Override
