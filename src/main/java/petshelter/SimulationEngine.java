@@ -27,7 +27,7 @@ public class SimulationEngine {
         for (int day = 1; day <= days; day++) {
             System.out.println("SIMS " + toRoman(day));
 
-            // Minimal output: show current animals and their statuses
+            //show current animals and their statuses
             for (Animal animal : shelter.getAnimals()) {
                 System.out.println(animal.getId() + " - " + animal.getSpecies()
                         + " - " + animal.getStatusName() + " - " + animal.getShelterZoneCode());
