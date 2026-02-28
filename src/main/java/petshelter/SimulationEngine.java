@@ -38,8 +38,8 @@ public class SimulationEngine {
     }
 
     /**
-     * Converts a small positive integer (1-10) into a Roman numeral.
-     *
+     *Organize the roman numerals instead of typing them out one by one.
+     *Used by the simulation cycle output (SIMS I, SIMS II, etc.).
      * @param number value to convert
      * @return Roman numeral string
      * @throws IllegalArgumentException if number is not between 1 and 10
