@@ -20,6 +20,7 @@ public class Animal {
     protected String healthStatus;
     protected String shelterZoneCode;
     protected AnimalState state;
+    private static final String DEFAULT_ZONE_CODE = "SZ-000";
 
     // Default constructor
     public Animal() {
@@ -27,7 +28,7 @@ public class Animal {
         this.species = "";
         this.age = 0;
         this.healthStatus = "";
-        this.shelterZoneCode = "SZ-000";
+        this.shelterZoneCode = DEFAULT_ZONE_CODE;
         this.state = new IntakeState();
     }
 
@@ -36,6 +37,8 @@ public class Animal {
         setId(id);
         setSpecies(species);
         setAge(age);
+        setHealthStatus(healthStatus);
+        this.shelterZoneCode = DEFAULT_ZONE_CODE;
         this.state = new IntakeState();
     }
 
@@ -69,7 +72,7 @@ public class Animal {
         return state.getStatusName();
     }
 
-    // Setters with validation
+
     // Setters with validation
 
     public void setId(String id) {
@@ -93,12 +96,49 @@ public class Animal {
         this.age = age;
     }
 
+    public void setShelterZoneCode(String shelterZoneCode) {
+        if (shelterZoneCode == null || shelterZoneCode.isBlank()) {
+            throw new IllegalArgumentException("Shelter zone code cannot be blank");
+        }
+
+        // Must start with SZ-
+        if (!shelterZoneCode.startsWith("SZ-")) {
+            throw new IllegalArgumentException("Shelter zone must start with SZ-");
+        }
+
+        // Must be length 6 (SZ- + 3 digits)
+        if (shelterZoneCode.length() != 6) {
+            throw new IllegalArgumentException("Shelter zone must be in format SZ-XXX");
+        }
+
+        // Check digits
+        String numberPart = shelterZoneCode.substring(3);
+        for (char c : numberPart.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                throw new IllegalArgumentException("Shelter zone must contain digits after SZ-");
+            }
+        }
+
+        this.shelterZoneCode = shelterZoneCode;
+    }
+
+    public void setHealthStatus(String healthStatus) {
+        if (healthStatus == null || healthStatus.isBlank()) {
+            throw new IllegalArgumentException("Health status cannot be blank");
+        }
+        this.healthStatus = healthStatus;
+    }
+
     public void setState(AnimalState state) {
         this.state = state;
+
+        //thought of adding null logic for this
+        if (state == null) {
+            throw new IllegalArgumentException("State cannot be null");
+        }
     }
 
     public void handleState() {
         state.handle(this);
     }
-
 }
