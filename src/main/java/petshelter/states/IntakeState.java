@@ -2,6 +2,7 @@ package petshelter.states;
 
 import petshelter.animals.Animal;
 
+
 /**
  * Represents the Intake state.
  *
@@ -13,11 +14,16 @@ public class IntakeState implements AnimalState {
 
     @Override
     public void handle(Animal animal) {
-        System.out.println("Animal " + animal.getId() + " is in intake.");
+        System.out.println("Animal has " + animal.getId() + " completed intake.");
+
+        // Transition to next lifecycle state
+        animal.setState(new AvailableState());
     }
 
     @Override
     public String getStatusName() {
         return "INTAKE";
     }
+
+
 }
