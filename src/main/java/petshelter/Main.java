@@ -1,20 +1,15 @@
 package petshelter;
 
-import petshelter.animals.Animal;
 
+/**
+ * Entry point for the Pet Shelter simulation.
+ */
 public class Main {
 
     public static void main(String[] args) {
         Shelter shelter = new Shelter();
+        SimulationEngine engine = new SimulationEngine(shelter);
 
-        System.out.println("SIMS I");
-
-        for (Animal animal : shelter.getAnimals()) {
-            System.out.println(
-                    animal.getId() + " - " +
-                            animal.getSpecies() + " - " +
-                            animal.getStatusName()
-            );
-        }
+        engine.run(7);
     }
 }
