@@ -14,7 +14,7 @@ public class IntakeState implements AnimalState {
 
     @Override
     public void handle(Animal animal) {
-        System.out.println("Animal has " + animal.getId() + " completed intake.");
+        System.out.println("Animal " + animal.getId() + " has completed intake.");
 
         // Transition to next lifecycle state
         animal.setState(new AvailableState());
