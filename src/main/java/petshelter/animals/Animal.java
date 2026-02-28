@@ -38,7 +38,7 @@ public class Animal {
         setSpecies(species);
         setAge(age);
         setHealthStatus(healthStatus);
-        this.shelterZoneCode = DEFAULT_ZONE_CODE;
+        setShelterZoneCode(shelterZoneCode);
         this.state = new IntakeState();
     }
 
@@ -130,12 +130,14 @@ public class Animal {
     }
 
     public void setState(AnimalState state) {
-        this.state = state;
 
         //thought of adding null logic for this
         if (state == null) {
             throw new IllegalArgumentException("State cannot be null");
         }
+
+        this.state = state;
+
     }
 
     public void handleState() {
