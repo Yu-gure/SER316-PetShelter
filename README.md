@@ -115,18 +115,164 @@ S III
 
 Concerns / Open Questions: N/A
 
+Integrated Design Patterns
 
-Unit Testing + Code Coverage (JaCoCo)
+This system implements two design patterns that work together to model dynamic shelter operations:
 
-Current Coverage Result:
+State Pattern
+Strategy Pattern
 
-Total instruction coverage: 62% (meets the ≥60% requirement).
+Integrated Design Patterns
 
-Coverage is strongest in pattern-related packages (petshelter.states, petshelter.animals, petshelter.people), and lower in the simulation/runner package (petshelter) because Main and some printing logic are intentionally not heavily tested.
+This system implements two design patterns that work together to model dynamic shelter operations:
 
-Exclusions:
+State Pattern
+Strategy Pattern
 
-Main, getters, and setters may be excluded from coverage expectations.
+These patterns interact through the simulation engine to control both animal lifecycle behavior and operational decision-making.
+
+Why this pattern?
+
+Animal behavior changes over time. The State pattern eliminates complex conditionals and keeps lifecycle logic modular and extensible.
+
+Pattern 2: Strategy Pattern
+Purpose
+
+The Strategy pattern controls how operational decisions are made during simulation cycles.
+
+Operational strategies include:
+
+Staff assignment for tasks
+
+Care handling
+
+Intake processing
+
+Adoption processing
+
+Different staff roles act as interchangeable strategies:
+
+Veterinarian
+
+VetTech
+
+AdoptionCounselor
+
+Each role:
+
+Has a capacity limit
+
+Accepts tasks based on availability
+
+The simulation engine selects appropriate staff dynamically.
+
+Why this pattern?
+
+Shelter policies (who performs which task, workload limits, etc.) may change. Strategy allows these behaviors to vary without modifying the simulation core.
+
+Pattern Integration (Most Important Section)
+
+The two patterns interact during each simulation cycle.
+
+Control Flow
+
+SimulationEngine runs daily cycle
+
+Strategy logic selects staff and operational actions
+
+Operational actions trigger lifecycle changes
+
+Animal.handleState() executes State behavior
+
+State transitions update the animal lifecycle
+
+SimulationEngine (Strategy decisions)
+↓
+Operational action assigned to Staff
+↓
+Animal.handleState()
+↓
+State Pattern transitions lifecycle
+Why this matters
+
+Strategy controls what actions happen
+
+State controls how animals respond over time
+
+Together they create a dynamic system where operations drive lifecycle changes
+
+This demonstrates meaningful interaction between the two patterns, satisfying integration requirements.
+
+Functional Requirements Implemented
+R1 – Core Animals and Intake
+
+System initializes with five animals (Shelter)
+
+New animals may arrive randomly during simulation
+
+Each animal includes:
+
+ID
+
+species
+
+age
+
+health status
+
+shelter zone
+
+R2 – People and Assignments
+
+Multiple staff roles implemented:
+
+Veterinarian
+
+VetTech
+
+AdoptionCounselor
+
+Staff have capacity limits
+
+All staff implement ISMem
+
+getCredentialHash() returns MemberID (simplified credential model)
+
+R3 – Adoption Workflow
+
+Animals progress through:
+
+Available
+
+Pending Adoption
+
+Adopted
+
+Adoption completion handled via State transitions
+
+R5 – Shelter Environment
+
+Each animal stores a shelter zone code (SZ-XXX)
+
+Zone validation enforced in Animal
+
+R6 – Simulation Cycles
+
+Simulation runs daily cycles
+
+Default run demonstrates at least 7 days
+
+Each cycle outputs:
+
+Roman numeral day label
+
+Animal statuses
+
+State transitions
+
+New arrivals
+
+Operational events
 
 Unit Testing + Code Coverage (JaCoCo)
 
