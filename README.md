@@ -114,3 +114,71 @@ S II
 S III
 
 Concerns / Open Questions: N/A
+
+
+Unit Testing + Code Coverage (JaCoCo)
+
+Current Coverage Result:
+
+Total instruction coverage: 62% (meets the ≥60% requirement).
+
+Coverage is strongest in pattern-related packages (petshelter.states, petshelter.animals, petshelter.people), and lower in the simulation/runner package (petshelter) because Main and some printing logic are intentionally not heavily tested.
+
+Exclusions:
+
+Main, getters, and setters may be excluded from coverage expectations.
+
+Unit Testing + Code Coverage (JaCoCo)
+
+JUnit tests were written to cover the design patterns and core behavior (animal lifecycle transitions, validation logic, staff capacity behavior, and simulation helpers like Roman numeral conversion).
+
+JaCoCo is used to measure coverage.
+
+Current Coverage Result:
+
+Total instruction coverage: 62% (meets the ≥60% requirement).
+
+Coverage is strongest in pattern-related packages (petshelter.states, petshelter.animals, petshelter.people), and lower in the simulation/runner package (petshelter) because Main and some printing logic are intentionally not heavily tested.
+
+Exclusions:
+
+Main, getters, and setters may be excluded from coverage expectations (per assignment guidance).
+
+Resources Used (Beyond Lecture/Slides)
+
+Refactoring.Guru (Design Patterns reference):
+Used to confirm the structure and intent of the State pattern and how to model transitions cleanly using polymorphism instead of conditionals.
+
+Baeldung (Java + JUnit + design patterns tutorials):
+Used for examples of Java pattern organization and JUnit testing conventions.
+
+JUnit 5 User Guide:
+Used to confirm correct annotation usage and assertions while writing tests.
+
+Gradle Documentation (Testing + JaCoCo plugin):
+Used to set up coverage reporting and ensure tasks run properly in CI.
+
+Challenges Faced + How I Solved Them
+1) Git workflow issues (branching/commits/pushing)
+
+Challenge: Accidentally committed changes to the wrong branch or had confusion with upstream tracking.
+
+Solution: Used git status, git log --oneline, and git push --set-upstream origin DelB to correctly publish the branch, then used PRs to merge cleanly.
+
+2) JUnit/Test structure and Gradle configuration
+
+Challenge: Tests failing to compile when placed in the wrong folder or due to incorrect class/file naming.
+
+Solution: Moved tests into src/test/java, corrected package names, and ensured filenames match public class names (required by Java).
+
+3) Making simulation output dynamic without breaking correctness
+
+Challenge: Early simulation behavior was too rigid (every animal advanced every day).
+
+Solution: Added probability-driven progression and random daily events while keeping clear output of state transitions.
+
+4) Static analysis warnings (Checkstyle/SpotBugs)
+
+Challenge: Warnings about magic numbers, missing JavaDoc, and possible representation exposure.
+
+Solution: Added JavaDoc to major classes, extracted constants into static final fields where needed, and adjusted getters to return safe views/copies when appropriate.
