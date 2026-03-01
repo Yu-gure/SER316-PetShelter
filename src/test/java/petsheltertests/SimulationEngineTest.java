@@ -13,5 +13,10 @@ public class SimulationEngineTest {
         SimulationEngine engine = new SimulationEngine(new Shelter());
         assertEquals("I", engine.toRoman(1));
         assertEquals("VII", engine.toRoman(7));
+        //added more conversion notes to be safe
+        assertEquals("VII", engine.toRoman(7));
+        assertEquals("X", engine.toRoman(10));
     }
+
+
 }

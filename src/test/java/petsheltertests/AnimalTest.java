@@ -14,6 +14,9 @@ public class AnimalTest {
         assertEquals("K9", animal.getId());
         assertEquals("Dog", animal.getSpecies());
         assertEquals(3, animal.getAge());
+        // add in SZCode/HealthStatus to test
+        assertEquals("Healthy", animal.getHealthStatus());
+        assertEquals("SZ-001", animal.getShelterZoneCode());
     }
 
     @Test

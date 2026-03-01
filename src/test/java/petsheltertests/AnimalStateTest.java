@@ -22,4 +22,17 @@ public class AnimalStateTest {
         a.handleState();
         assertEquals("ADOPTED", a.getStatusName());
     }
-}
+
+    @Test
+    void adoptedStateDoesNotTransition() {
+        Animal a = new Animal("D007", "Dog", 2, "Healthy", "SZ-101");
+
+        a.handleState(); // intake -> available
+        a.handleState(); // available -> pending
+        a.handleState(); // pending -> adopted
+
+        assertEquals("ADOPTED", a.getStatusName());
+
+        a.handleState(); // this should not change
+        assertEquals("ADOPTED", a.getStatusName());
+    }}
