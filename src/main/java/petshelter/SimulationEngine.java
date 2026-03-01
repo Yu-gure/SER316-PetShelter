@@ -1,6 +1,15 @@
 package petshelter;
 
 import petshelter.animals.Animal;
+import petshelter.people.AdoptionCounselor;
+import petshelter.people.Staff;
+import petshelter.people.VetTech;
+import petshelter.people.Veterinarian;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Runs the pet shelter simulation in daily cycles.
@@ -8,9 +17,17 @@ import petshelter.animals.Animal;
 public class SimulationEngine {
 
     private final Shelter shelter;
+    private final Random rng = new Random();
+    private final List<Staff> staff = new ArrayList<>();
+    private final Scanner scanner = new Scanner(System.in);
 
     public SimulationEngine(Shelter shelter) {
         this.shelter = shelter;
+        //add staff
+        staff.add(new Veterinarian("V001", "Dr. Chen"));
+        staff.add(new VetTech("T001", "Morgan"));
+        staff.add(new AdoptionCounselor("A001", "Riley"));
+
     }
 
     /**
@@ -25,15 +42,31 @@ public class SimulationEngine {
         }
 
         for (int day = 1; day <= days; day++) {
-            System.out.println("SIMS " + toRoman(day));
+            System.out.println("SIM " + toRoman(day));
+
+            // 30% chance of a new arrival each day
+            if (rng.nextInt(100) < 30) {
+                Animal newAnimal = new Animal("N" + day + "-" + rng.nextInt(100),
+                        "Dog", 1, "Healthy", "SZ-106");
+                shelter.intakeAnimal(newAnimal);
+                System.out.println("New arrival: " + newAnimal.getId());
+            }
 
             //show current animals and their statuses
             for (Animal animal : shelter.getAnimals()) {
                 System.out.println(animal.getId() + " - " + animal.getSpecies()
                         + " - " + animal.getStatusName() + " - " + animal.getShelterZoneCode());
-            }
 
-            System.out.println(); // blank line between cycles
+                // Advance lifecycle each day
+                // 70% chance the animal advances today
+                if (rng.nextInt(100) < 70) {
+                    animal.handleState();
+                }
+
+            }
+            System.out.println("\nPress ENTER to run next day...");
+            scanner.nextLine();
+            System.out.println();
         }
     }
 
@@ -58,5 +91,22 @@ public class SimulationEngine {
             case 10 -> "X";
             default -> throw new IllegalArgumentException("Roman conversion supports 1 to 10 only");
         };
+    }
+
+
+    //helper methods for picking staff and first available to assign these people
+    private Staff pickStaffForTask(String task) {
+        // super simple routing:
+        if (task.equals("Intake exam")) return firstAvailable("Veterinarian");
+        if (task.equals("Daily care")) return firstAvailable("VetTech");
+        if (task.equals("Adoption processing")) return firstAvailable("AdoptionCounselor");
+        return null;
+    }
+
+    private Staff firstAvailable(String role) {
+        for (Staff s : staff) {
+            if (s.getRole().equals(role) && s.canTakeTask()) return s;
+        }
+        return null;
     }
 }

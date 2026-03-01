@@ -71,4 +71,9 @@ public class Staff implements ISMem {
     public String getCredentialHash() {
         return memberId;
     }
+
+    //daily reset for staff
+    public void resetForNewDay() {
+        assignedTasks = 0;
+    }
 }

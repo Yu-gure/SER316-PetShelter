@@ -17,8 +17,8 @@ public class Main {
         // quick little test
         Animal a = new Animal("11", "animal", 2, "Healthy", "SZ-000");
 
-        System.out.println(a.getStatusName()); // INTAKE
-        a.handleState();
-        System.out.println(a.getStatusName()); // AVAILABLE
+        //System.out.println(a.getStatusName()); // INTAKE
+        //a.handleState();
+        //System.out.println(a.getStatusName()); // AVAILABLE
     }
 }
