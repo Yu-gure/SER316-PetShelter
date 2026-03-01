@@ -3,7 +3,9 @@ package petsheltertests;
 import org.junit.jupiter.api.Test;
 import petshelter.animals.Animal;
 import petshelter.states.IntakeState;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class IntakeStateTest {
 

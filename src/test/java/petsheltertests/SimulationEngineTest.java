@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 import petshelter.Shelter;
 import petshelter.SimulationEngine;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class SimulationEngineTest {
 
