@@ -114,3 +114,217 @@ S II
 S III
 
 Concerns / Open Questions: N/A
+
+Integrated Design Patterns
+
+This system implements two design patterns that work together to model dynamic shelter operations:
+
+State Pattern
+Strategy Pattern
+
+Integrated Design Patterns
+
+This system implements two design patterns that work together to model dynamic shelter operations:
+
+State Pattern
+Strategy Pattern
+
+These patterns interact through the simulation engine to control both animal lifecycle behavior and operational decision-making.
+
+Why this pattern?
+
+Animal behavior changes over time. The State pattern eliminates complex conditionals and keeps lifecycle logic modular and extensible.
+
+Pattern 2: Strategy Pattern
+Purpose
+
+The Strategy pattern controls how operational decisions are made during simulation cycles.
+
+Operational strategies include:
+
+Staff assignment for tasks
+
+Care handling
+
+Intake processing
+
+Adoption processing
+
+Different staff roles act as interchangeable strategies:
+
+Veterinarian
+
+VetTech
+
+AdoptionCounselor
+
+Each role:
+
+Has a capacity limit
+
+Accepts tasks based on availability
+
+The simulation engine selects appropriate staff dynamically.
+
+Why this pattern?
+
+Shelter policies (who performs which task, workload limits, etc.) may change. Strategy allows these behaviors to vary without modifying the simulation core.
+
+Pattern Integration (Most Important Section)
+
+The two patterns interact during each simulation cycle.
+
+Control Flow
+
+SimulationEngine runs daily cycle
+
+Strategy logic selects staff and operational actions
+
+Operational actions trigger lifecycle changes
+
+Animal.handleState() executes State behavior
+
+State transitions update the animal lifecycle
+
+SimulationEngine (Strategy decisions)
+↓
+Operational action assigned to Staff
+↓
+Animal.handleState()
+↓
+State Pattern transitions lifecycle
+Why this matters
+
+Strategy controls what actions happen
+
+State controls how animals respond over time
+
+Together they create a dynamic system where operations drive lifecycle changes
+
+This demonstrates meaningful interaction between the two patterns, satisfying integration requirements.
+
+Functional Requirements Implemented
+R1 – Core Animals and Intake
+
+System initializes with five animals (Shelter)
+
+New animals may arrive randomly during simulation
+
+Each animal includes:
+
+ID
+
+species
+
+age
+
+health status
+
+shelter zone
+
+R2 – People and Assignments
+
+Multiple staff roles implemented:
+
+Veterinarian
+
+VetTech
+
+AdoptionCounselor
+
+Staff have capacity limits
+
+All staff implement ISMem
+
+getCredentialHash() returns MemberID (simplified credential model)
+
+R3 – Adoption Workflow
+
+Animals progress through:
+
+Available
+
+Pending Adoption
+
+Adopted
+
+Adoption completion handled via State transitions
+
+R5 – Shelter Environment
+
+Each animal stores a shelter zone code (SZ-XXX)
+
+Zone validation enforced in Animal
+
+R6 – Simulation Cycles
+
+Simulation runs daily cycles
+
+Default run demonstrates at least 7 days
+
+Each cycle outputs:
+
+Roman numeral day label
+
+Animal statuses
+
+State transitions
+
+New arrivals
+
+Operational events
+
+Unit Testing + Code Coverage (JaCoCo)
+
+JUnit tests were written to cover the design patterns and core behavior (animal lifecycle transitions, validation logic, staff capacity behavior, and simulation helpers like Roman numeral conversion).
+
+JaCoCo is used to measure coverage.
+
+Current Coverage Result:
+
+Total instruction coverage: 62% (meets the ≥60% requirement).
+
+Coverage is strongest in pattern-related packages (petshelter.states, petshelter.animals, petshelter.people), and lower in the simulation/runner package (petshelter) because Main and some printing logic are intentionally not heavily tested.
+
+Exclusions:
+
+Main, getters, and setters may be excluded from coverage expectations (per assignment guidance).
+
+Resources Used (Beyond Lecture/Slides)
+
+Refactoring.Guru (Design Patterns reference):
+Used to confirm the structure and intent of the State pattern and how to model transitions cleanly using polymorphism instead of conditionals.
+
+Baeldung (Java + JUnit + design patterns tutorials):
+Used for examples of Java pattern organization and JUnit testing conventions.
+
+JUnit 5 User Guide:
+Used to confirm correct annotation usage and assertions while writing tests.
+
+Gradle Documentation (Testing + JaCoCo plugin):
+Used to set up coverage reporting and ensure tasks run properly in CI.
+
+Challenges Faced + How I Solved Them
+1) Git workflow issues (branching/commits/pushing)
+
+Challenge: Accidentally committed changes to the wrong branch or had confusion with upstream tracking.
+
+Solution: Used git status, git log --oneline, and git push --set-upstream origin DelB to correctly publish the branch, then used PRs to merge cleanly.
+
+2) JUnit/Test structure and Gradle configuration
+
+Challenge: Tests failing to compile when placed in the wrong folder or due to incorrect class/file naming.
+
+Solution: Moved tests into src/test/java, corrected package names, and ensured filenames match public class names (required by Java).
+
+3) Making simulation output dynamic without breaking correctness
+
+Challenge: Early simulation behavior was too rigid (every animal advanced every day).
+
+Solution: Added probability-driven progression and random daily events while keeping clear output of state transitions.
+
+4) Static analysis warnings (Checkstyle/SpotBugs)
+
+Challenge: Warnings about magic numbers, missing JavaDoc, and possible representation exposure.
+
+Solution: Added JavaDoc to major classes, extracted constants into static final fields where needed, and adjusted getters to return safe views/copies when appropriate.
